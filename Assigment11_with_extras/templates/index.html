@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do List</title>
+</head>
+<body>
+{% if error != ""%}
+    <h2>Errors</h2>
+    <p> {{error}}</p>
+  {% endif %}
+<h2>ToDo List</h2>
+<table>
+    <tr>
+        <th>Task</th>
+        <th>Email</th>
+        <th>Priority</th>
+    </tr>
+    {%for ind in range(todo_list |length)%}
+      <tr>
+        <td>{{todo_list[ind].task}}</td>
+        <td>{{todo_list[ind].email}}</td>
+        <td>{{todo_list[ind].priority}}</td>
+        <td>
+            <form action="/delete" method="POST">
+                <input type="text" value="{{ind}}" name="delete" hidden="true">
+                <input type="submit" value="delete">
+            </form>
+        </td>
+      </tr>
+
+    {% endfor %}
+</table>
+<h2>Creating New ToDo</h2>
+<form action="/submit" method="post">
+    Task:<input type="text" name="task"><br>
+    Email:<input type="text" name="email"><br>
+    Priority:
+    <select name="priority">
+        {% for priority in priorities %}
+        <option value="{{priority}}">{{priority}}</option>"
+        {% endfor %}
+    </select><br>
+    <input type="submit" value="Add To Do Item">
+</form>
+<h2>Saving</h2>
+<form action="/save">
+    <input type="submit" value="Save">
+</form>
+<h2>Clearing</h2>
+<form action="/clear">
+    <input type="submit" value="Clear">
+</form>
+</body>
+</html>
